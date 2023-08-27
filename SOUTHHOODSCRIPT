@@ -136,7 +136,6 @@ local Window = Rayfield:CreateWindow({
 })
 --end of fly region entering walkspeed
 
-})
 
 local TeleportTab = Window:CreateTab("🌐 Teleports", 4483362458) -- Title, Image
 local Section = TeleportTab:CreateSection("🔫 Guns")
