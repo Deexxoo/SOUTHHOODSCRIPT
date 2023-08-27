@@ -1,0 +1,279 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+    Name = "🌴 South hood",
+    LoadingTitle = "posi is the best",
+    LoadingSubtitle = "made by daddy d-posi",
+    ConfigurationSaving = {
+       Enabled = true,
+       FolderName = nil, -- Create a custom folder for your hub/game
+       FileName = "south hood GUI"
+    },
+    Discord = {
+       Enabled = false,
+       Invite = "https://discord.gg/vDCygCejQN", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ABCD would be ABCD
+       RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+    },
+    KeySystem = false, -- Set this to true to use our key system
+    KeySettings = {
+       Title = "Untitled",
+       Subtitle = "Key System",
+       Note = "No method of obtaining the key is provided",
+       FileName = "Key", -- It is recommended to use something unique as other scripts using Rayfield may overwrite your key file
+       SaveKey = true, -- The user's key will be saved, but if you change the key, they will be unable to use your script
+       GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
+       Key = {"Hello"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
+    }
+ })
+--entering fly tab
+
+ local MainTab = Window:CreateTab("General", nil) -- Title, Image
+ local MainSection = MainTab:CreateSection("Section Example")
+
+ Rayfield:Notify({
+    Title = "Exectuted",
+    Content = "",
+    Duration = 5,
+    Image = 4483362458,
+    Actions = { -- Notification Buttons
+       Ignore = {
+          Name = "dont care",
+          Callback = function()
+          print("stop looking here fucking nerd")
+       end
+    },
+ },
+ })
+
+ local Button = MainTab:CreateButton({
+   Name = "fly toggle c",
+   Callback = function()
+      local ToFly = "c" 
+      --set this to anything you want
+      
+      
+      repeat wait() 
+         until game.Players.LocalPlayer and game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:findFirstChild("Head") and game.Players.LocalPlayer.Character:findFirstChild("Humanoid") 
+      local mouse = game.Players.LocalPlayer:GetMouse() 
+      repeat wait() until mouse
+      local plr = game.Players.LocalPlayer 
+      local torso = plr.Character.Head 
+      local flying = false
+      local deb = true 
+      local ctrl = {f = 0, b = 0, l = 0, r = 0} 
+      local lastctrl = {f = 0, b = 0, l = 0, r = 0} 
+      local maxspeed = 200
+      local speed = 200 
+      
+      function Fly() 
+      local bg = Instance.new("BodyGyro", torso) 
+      bg.P = 9e4 
+      bg.maxTorque = Vector3.new(9e9, 9e9, 9e9) 
+      bg.cframe = torso.CFrame 
+      local bv = Instance.new("BodyVelocity", torso) 
+      bv.velocity = Vector3.new(0,0.1,0) 
+      bv.maxForce = Vector3.new(9e9, 9e9, 9e9) 
+      repeat wait() 
+      plr.Character.Humanoid.PlatformStand = true 
+      if ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0 then 
+      speed = speed+.200+(speed/maxspeed) 
+      if speed > maxspeed then 
+      speed = maxspeed 
+      end 
+      elseif not (ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0) and speed ~= 0 then 
+      speed = speed-1 
+      if speed < 0 then 
+      speed = 0 
+      end 
+      end 
+      if (ctrl.l + ctrl.r) ~= 0 or (ctrl.f + ctrl.b) ~= 0 then 
+      bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (ctrl.f+ctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(ctrl.l+ctrl.r,(ctrl.f+ctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed 
+      lastctrl = {f = ctrl.f, b = ctrl.b, l = ctrl.l, r = ctrl.r} 
+      elseif (ctrl.l + ctrl.r) == 0 and (ctrl.f + ctrl.b) == 0 and speed ~= 0 then 
+      bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (lastctrl.f+lastctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(lastctrl.l+lastctrl.r,(lastctrl.f+lastctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed 
+      else 
+      bv.velocity = Vector3.new(0,0.1,0) 
+      end 
+      bg.cframe = game.Workspace.CurrentCamera.CoordinateFrame * CFrame.Angles(-math.rad((ctrl.f+ctrl.b)*50*speed/maxspeed),0,0) 
+      until not flying 
+      ctrl = {f = 0, b = 0, l = 0, r = 0} 
+      lastctrl = {f = 0, b = 0, l = 0, r = 0} 
+      speed = 0 
+      bg:Destroy() 
+      bv:Destroy() 
+      plr.Character.Humanoid.PlatformStand = false 
+      end 
+      mouse.KeyDown:connect(function(key) 
+      if key:lower() == ToFly then 
+      if flying then flying = false 
+      else 
+      flying = true 
+      Fly() 
+      end 
+      elseif key:lower() == "w" then 
+      ctrl.f = 15 
+      elseif key:lower() == "s" then 
+      ctrl.b = -10 
+      elseif key:lower() == "a" then 
+      ctrl.l = -10 
+      elseif key:lower() == "d" then 
+      ctrl.r = 10 
+      end 
+      end) 
+      mouse.KeyUp:connect(function(key) 
+      if key:lower() == "w" then 
+      ctrl.f = 0 
+      elseif key:lower() == "s" then 
+      ctrl.b = 0 
+      elseif key:lower() == "a" then 
+      ctrl.l = 0 
+      elseif key:lower() == "d" then 
+      ctrl.r = 0 
+      end 
+      end)
+      Fly()
+   end,
+})
+--end of fly region entering walkspeed
+
+local Slider = MainTab:CreateSlider({
+   Name = "WalkSpeed (BROKEN)",
+   Range = {0, 300},
+   Increment = 1,
+   Suffix = "Speed",
+   CurrentValue = 16,
+   Flag = "Slider1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+         game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = (Value)
+   end,
+})
+
+local TeleportTab = Window:CreateTab("🌐 Teleports", 4483362458) -- Title, Image
+local Section = TeleportTab:CreateSection("🔫 Guns")
+
+local Button = TeleportTab:CreateButton({
+   Name = "Double Barrel",
+   Callback = function()
+
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new  (400.884125, 454.912476, -691.434875, -0.0201179609, -1.07557632e-07, -0.999797642, 4.19109014e-08, 1, -1.08422732e-07, 0.999797642, -4.40836629e-08, -0.0201179609)
+   end,
+})
+
+local Button = TeleportTab:CreateButton({
+   Name = "Revolver",
+   Callback = function()
+
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new  (431.260345, 454.907501, -430.380798, 0.999997675, 4.37846592e-10, 0.00214701728, -4.57539923e-10, 1, 9.1719139e-09, -0.00214701728, -9.1728749e-09, 0.999997675)
+   end,
+})
+
+local Button = TeleportTab:CreateButton({
+   Name = "Gun store",
+   Callback = function()
+
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new  (105.967636, 455.382996, -576.877136, 0.0536233373, -3.36803163e-09, 0.998561263, -6.04713668e-10, 1, 3.405358e-09, -0.998561263, -7.86450238e-10, 0.0536233373)
+   end,
+})
+
+
+local Button = TeleportTab:CreateButton({
+   Name = "Silencer (One shot)",
+   Callback = function()
+
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new  (617.275085, 513.680847, -631.269043, -0.0152387805, 3.39577646e-08, 0.99988389, -9.73177023e-08, 1, -3.54448844e-08, -0.99988389, -9.7846538e-08, -0.0152387805)
+   end,
+})
+
+local Button = TeleportTab:CreateButton({
+   Name = "RPG (ur a bitch)",
+   Callback = function()
+
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new  (1107.2749, 481.213226, -544.599792, -0.998169661, -1.2222098e-08, 0.0604759306, -1.40323069e-08, 1, -2.95080174e-08, -0.0604759306, -3.03026226e-08, -0.998169661)
+   end,
+})
+
+local Section = TeleportTab:CreateSection("🛡 Armor")
+
+local Button = TeleportTab:CreateButton({
+   Name = "Plot Armor 450",
+   Callback = function()
+
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new  (-1392.59094, 451.38974, -511.709869, -0.0477148741, 5.49847492e-08, -0.998861015, -7.31813776e-10, 1, 5.50824062e-08, 0.998861015, 3.35923023e-09, -0.0477148741)
+   end,
+})
+
+
+local Button = TeleportTab:CreateButton({
+   Name = "Arapaima Armor 300",
+   Callback = function()
+
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new  (39.2088356, 409.643097, -521.100586, -0.999653578, 2.36061393e-08, 0.026319243, 2.53205243e-08, 1, 6.48048299e-08, -0.026319243, 6.54487948e-08, -0.999653578)
+   end,
+})
+
+local Button = TeleportTab:CreateButton({
+   Name = "Frozen Armor 200",
+   Callback = function()
+
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new  (473.696228, 400.712677, -758.054077, 0.0281264056, -4.603611e-08, 0.999604404, -3.73734066e-09, 1, 4.61594887e-08, -0.999604404, -5.03416242e-09, 0.0281264056)
+   end,
+})
+
+
+local Section = TeleportTab:CreateSection("🌐 Teleports")
+
+local Button = TeleportTab:CreateButton({
+   Name = "Armor and Food Area",
+   Callback = function()
+   
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new  (-1419.97595, 451.389801, -540.28894, 4.11877409e-06, -9.06996789e-08, -1, 9.3715018e-09, 1, -9.06996434e-08, 1, -9.37112787e-09, 4.11877409e-06)
+   end,
+})
+
+local Button = TeleportTab:CreateButton({
+   Name = "Food Store",
+   Callback = function()
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new  (395.60611, 455.93161, -632.68219, 0.999988854, -1.12097645e-07, -0.00471966946, 1.11958485e-07, 1, -2.97500939e-08, 0.00471966946, 2.9221356e-08, 0.999988854)
+   end,
+})
+
+local Button = TeleportTab:CreateButton({
+   Name = "Bank Vault",
+   Callback = function()
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new  (427.776154, 456.29364, -446.109497, -0.999876916, 3.5034049e-09, -0.0156889856, 2.11280771e-09, 1, 8.86518308e-08, 0.0156889856, 8.860777e-08, -0.999876916)
+   end,
+})
+
+local Section = TeleportTab:CreateSection("👶 Spawns")
+
+local Button = TeleportTab:CreateButton({
+   Name = "Beach Spawn",
+   Callback = function()
+
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new  (-85.4282227, 454.872253, -419.823608, -0.999731421, -6.4445139e-08, -0.0231762733, -6.50481482e-08, 1, 2.52644732e-08, 0.0231762733, 2.67652602e-08, -0.999731421)
+   end,
+})
+
+local Button = TeleportTab:CreateButton({
+   Name = "Bay Spawn",
+   Callback = function()
+
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new  (132.936493, 454.412384, -381.724731, 0.999869287, -4.20843875e-08, 0.0161673892, 4.12012255e-08, 1, 5.49591412e-08, -0.0161673892, -5.42858416e-08, 0.999869287)
+   end,
+})
+
+local Button = TeleportTab:CreateButton({
+   Name = "Uphill Spawn",
+   Callback = function()
+
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new  (1208.85315, 480.912537, -738.29187, 0.00498654833, -5.16972669e-08, 0.999987543, 9.09742184e-08, 1, 5.12442568e-08, -0.999987543, 9.07175561e-08, 0.00498654833)
+   end,
+})
+
+local Button = TeleportTab:CreateButton({
+   Name = "FAR Uphill Spawn",
+   Callback = function()
+
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new  (559.985168, 493.951355, -1712.27222, 0.0277382508, -3.7166592e-09, 0.999615192, -2.52900634e-09, 1, 3.78826703e-09, -0.999615192, -2.63311328e-09, 0.0277382508)
+   end,
+})
